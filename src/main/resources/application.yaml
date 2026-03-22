@@ -5,7 +5,7 @@ spring:
   application:
     name: processing
   datasource:
-    url: jdbc:mysql://processing-mysql:3307/processing_db?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://processing-mysql:3306/processing_db?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
