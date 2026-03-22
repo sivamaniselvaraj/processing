@@ -18,4 +18,4 @@ Processing Service -> Consumes event -> Processes order -> Publishes Event (Orde
 ## Run
 mvn clean package
 docker build -t processing-service .
-docker run -p 8082:8080 processing-service
+docker run -p 8082:8082 processing-service

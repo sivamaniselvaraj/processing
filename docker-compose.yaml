@@ -1,17 +1,17 @@
 services:
 
-  db_processing:
-    image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ProcessingDB
-      MYSQL_PASSWORD: root
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql_bkp_processing:/var/lib/mysql
-    networks:
-      - kafka_default
+#  processing-mysql:
+#    container_name: processing-mysql
+#    hostname: processing-mysql
+#    image: mysql:8
+#    restart: unless-stopped
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: processing_db
+#    ports:
+#      - "3307:3307"
+#    volumes:
+#      - processing-mysql_data:/var/lib/mysql
 
 #  kafka_processing:
 #    image: apache/kafka:latest
@@ -63,14 +63,14 @@ services:
 #      SPRING_DATASOURCE_URL: jdbc:mysql://db_processing:3306/ProcessingDB?allowPublicKeyRetrieval=true&useSSL=false
 #      SPRING_DATASOURCE_USERNAME: root
 #      SPRING_DATASOURCE_PASSWORD: root
-    depends_on:
-      - db_processing
+#    depends_on:
+      #- processing-mysql
 #      - kafka_processing
     networks:
       - kafka_default
 
 volumes:
-  mysql_bkp_processing:
+  processing-mysql_data:
   kafka_data:
 
 networks:
