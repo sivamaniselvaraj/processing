@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.assignments.processing.dto.OrderEvent;
 import org.assignments.processing.entity.OutboxEvent;
+import org.assignments.processing.enums.OrderStatus;
 import org.assignments.processing.service.ProcessingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -26,8 +27,9 @@ public class OrderEventConsumer {
         log.info("Received order event {} {}", event.getStatus(), event.getOrderId());
 
 
-        if ("orderCreated".equalsIgnoreCase(event.getStatus())) {
+        if (OrderStatus.CREATED.name().equalsIgnoreCase(event.getStatus())) {
             //OrderEvent orderEvent = MAPPER.readValue(event.getPayload(), OrderEvent.class);
+            log.info("CorrelationId {} processing the order {}",event.getCorrelationId(), event.getOrderId());
             processingService.startProcessing(event);
         }}
         catch (Exception e){

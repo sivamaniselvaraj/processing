@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.assignments.processing.dto.OrderEvent;
 import org.assignments.processing.entity.Job;
 import org.assignments.processing.entity.ProcessingStatus;
+import org.assignments.processing.enums.JobStatus;
+import org.assignments.processing.enums.ProcessingStatusEnum;
 import org.assignments.processing.repository.JobRepository;
 import org.assignments.processing.repository.ProcessingStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +36,15 @@ public class ProcessingService {
     public void startProcessing(OrderEvent event) throws JsonProcessingException {
 
         if (jobRepository.existsByOrderId(event.getOrderId())) {
-            log.info("Idempotent check: job already exists");
+            log.info(" {} Idempotent check: Order# {} already exists", event.getCorrelationId(), event.getOrderId());
             return;
         }
 
         Job job = new Job();
         job.setJobId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
         job.setOrderId(event.getOrderId());
-        job.setJobType("ORDER_PROCESSING");
-        job.setJobStatus("PENDING");
+        job.setJobType("Order_Processing");
+        job.setJobStatus(JobStatus.PENDING.name());
         job.setCreatedAt(LocalDateTime.now());
 
         jobRepository.save(job);
@@ -50,7 +52,7 @@ public class ProcessingService {
         ProcessingStatus status = new ProcessingStatus();
         status.setStatusId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
         status.setJobId(job.getJobId());
-        status.setStatus("PENDING");
+        status.setStatus(JobStatus.PENDING.name());
         status.setMessage("Processing started");
         status.setCreatedAt(LocalDateTime.now());
 
@@ -75,12 +77,12 @@ public class ProcessingService {
 
         // business logic here
 
-        job.setJobStatus("SUCCESS");
-        job.setCompletedAt(LocalDateTime.now());
+//        job.setJobStatus("SUCCESS");
+//        job.setCompletedAt(LocalDateTime.now());
 
-        jobRepository.save(job);
+        //jobRepository.save(job);
 
-        outboxService.createOutbox("orderProcessed", event);
+        outboxService.createOutbox(JobStatus.PENDING.name(), event);
     }
 
     public void updateStatus(Long orderId, String status) {
