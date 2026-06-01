@@ -6,14 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class OrderItem {
-    private int id;
+    private int code;
     private int quantity;
     private BigDecimal price;
     private BigDecimal subtotal;

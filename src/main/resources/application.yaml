@@ -30,8 +30,8 @@ spring:
       max-poll-records: 10
     # ── Producer ──────────────────────────────────────────────
     producer:
-      client-id: processing-service-producer
-      # transaction-id-prefix: processing-service-tx-
+      #client-id: processing-service-producer
+      #transaction-id-prefix: processing-service-tx-
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
       acks: all
@@ -46,7 +46,7 @@ spring:
         linger.ms: 30   # wait up to 30ms to batch records
         enable.idempotence: true
         #max.in.flight.requests.per.connection: 1
-        retry.backoff.ms: 10000 # 10s retry backoff
+        retry.backoff.ms: 1000 # 10s retry backoff
         delivery.timeout.ms: 1500000 # 25min delivery time
 
 logging:

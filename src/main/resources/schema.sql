@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS jobs (
-    job_id          CHAR(36)        NOT NULL DEFAULT (UUID()),
-    order_id        CHAR(36)        NOT NULL,
+    job_id          VARCHAR(36)        NOT NULL DEFAULT (UUID()),
+    order_id        VARCHAR(36)        NOT NULL,
     job_type        VARCHAR(50)     NOT NULL,
     status          VARCHAR(50)     NOT NULL DEFAULT 'PENDING',
     priority        VARCHAR(50)     NOT NULL DEFAULT 'MEDIUM',
@@ -41,9 +41,9 @@ CREATE INDEX idx_jobs_payload_order ON jobs ((CAST(payload->>'$.orderId' AS CHAR
 -- -------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS processing_status (
-    status_id           CHAR(36)    NOT NULL DEFAULT (UUID()),
-    job_id              CHAR(36)    NOT NULL,
-    order_id            CHAR(36)    NOT NULL,
+    status_id           VARCHAR(36)    NOT NULL DEFAULT (UUID()),
+    job_id              VARCHAR(36)    NOT NULL,
+    order_id            VARCHAR(36)    NOT NULL,
 
     current_step        VARCHAR(50)           NOT NULL,
 
@@ -102,9 +102,9 @@ CREATE TABLE IF NOT EXISTS outbox_events (
                                              event_id            CHAR(36)        NOT NULL DEFAULT (UUID()),
 
     -- Correlation Key: always = jobId, ties all saga events together
-    correlation_id      CHAR(36)        NOT NULL,
+    correlation_id      VARCHAR(36)        NOT NULL,
 
-    order_id            CHAR(36)        NOT NULL,
+    order_id            VARCHAR(36)        NOT NULL,
 
     topic               VARCHAR(100)    NOT NULL COMMENT 'Target Kafka topic',
     event_type          VARCHAR(100)    NOT NULL COMMENT 'e.g. INVENTORY_CHECK_REQUESTED',
